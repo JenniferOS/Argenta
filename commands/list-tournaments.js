@@ -1,6 +1,5 @@
 var request = require("request");
 var { challonge } = require('../config.json')
-const Discord = require('discord.js');
 
 module.exports = {
     name: 'tls',
@@ -16,12 +15,25 @@ module.exports = {
 
             let flag = arg;
             if (flag == '') {
-                message.channel.send('**Torneo** || **Status**');
-                console.log('Torneo || Status');
+                //message.channel.send('**Tournament** || **Id**');
+                //console.log('Torneo || Status');
+                let msgHeader = "**Tournament** || **Id**";
+                let msg = "";
                 result.forEach(element => {
-                    message.channel.send('**'+element.tournament.name+':** '+element.tournament.progress_meter+'%');
-                    console.log('**'+element.tournament.name+':** '+element.tournament.progress_meter+'%');
+                    msg = msg + '**'+ element.tournament.name + ':** ' + element.tournament.url + '\n';
                 });
+                message.channel.send(msgHeader + '\n\n' + msg);
+            } else if (flag == '-D') {
+                // bandera -D significa Details
+                let msg = "";
+                result.forEach(element => {
+                    msg = msg + '`Tournament: `' +  '**__' + element.tournament.name + '__**' + '\n' 
+                          + 'Description: ' + element.tournament.description + '\n'
+                          + 'id: ' + element.tournament.url + '\n'
+                          + 'Status: ' + element.tournament.progress_meter + '%' + '\n\n';
+                });
+
+                message.channel.send(msg);
             }
         });
 
